@@ -1,0 +1,40 @@
+extends layout.pug
+
+block content     
+  div.row
+    div.col.m8.offset-m2
+      div.card
+        div.card-content
+          span.card-title.black-text Register
+          p Please register to begin tracking. We will 
+            strong never 
+            | share your personal information.
+          form(id="register" name="register" action='/register', method='post')
+            div.row
+              div.input-field.col.m6.s12
+                input.validate(name="firstname", type="text", placeholder="first name")
+              
+              div.input-field.col.m6.s12
+                input.validate(name="lastname", type="text", placeholder="last name")
+              
+              div.input-field.col.m6.s12
+                input.validate(name='email', type='text', placeholder='email (for login)')
+
+              div.input-field.col.m6.s12
+                input.validate(name='confirm_email', type='text', placeholder='confirm email')
+
+              div.input-field.col.m6.s12
+                input.validate(name='password', type='password', placeholder='Password')
+              
+              div.input-field.col.m6.s12
+                input.validate(name='confirm_pw', type='password', placeholder='Confirm Password')
+            div.row
+              div.col.m6.s6
+                button.btn.col.m12.s12 Register
+              
+              // the cancel button returns the user to the login screen
+              div.col.m6.s6
+                a(href='/login') 
+                  button.btn.col.m12.s12(type='button') Cancel
+
+  include scripts.pug

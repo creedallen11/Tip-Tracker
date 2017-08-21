@@ -1,0 +1,102 @@
+var bCrypt = require('bcrypt-nodejs');
+
+
+module.exports = function(passport, user) {
+   var User = user;
+   var LocalStrategy = require('passport-local').Strategy;
+
+   // Serialize
+   passport.serializeUser(function(user, done) {
+       done(null, user.id);
+   });
+   // Deserialize user 
+   passport.deserializeUser(function(id, done) {
+       User.findById(id).then(function(user) {
+           if (user) {
+               done(null, user.get());
+           } else {
+               done(user.errors, null);
+           }
+       });
+   });
+   // Local register strategy
+   passport.use('local-register', new LocalStrategy({
+       usernameField: 'email',
+       passwordField: 'password',
+       passReqToCallback: true // allows to pass entire request to callback
+       },
+       function(req, email, password, done) {
+           var generateHash = function(password) {
+               return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+           };
+
+           User.findOne({
+               where: {
+                   email: email
+               }
+           }).then(function(user) {
+               if (user) {
+                   return done(null, false, {
+                       message: 'That email is already in use.'
+                   });
+               } else { 
+                   var userPassword = generateHash(password);
+                   var data = {
+                       email: email,
+                       password: userPassword,
+                       firstname: req.body.firstname,
+                       lastname: req.body.lastname
+                       };
+
+                   User.create(data).then(function(newUser, created) {
+                       if (!newUser) {
+                           return done(null, false);
+                       }
+                       if (newUser) {
+                           return done(null, newUser);
+                       }
+                   });
+               }
+           });
+       }
+   ));
+
+   // Local login strategy
+   passport.use('local-login', new LocalStrategy({
+       usernameField: 'email',
+       passwordField: 'password',
+       passReqToCallback: true
+       },
+   function(req, email, password, done) {
+       var User = user;
+       var isValidPassword = function(userpass, password) {
+           return bCrypt.compareSync(password, userpass);
+       }
+
+       User.findOne({
+           where: {
+               email: email
+           }
+       }).then(function(user) {
+           if (!user) {
+               return done(null, false, {
+                   message: 'Email does not exist'
+               });
+           }
+           if (!isValidPassword(user.password, password)) {
+               return done(null, false, {
+                   message: 'Incorrect password.'
+               });
+           }
+
+           var userInfo = user.get();
+           return done(null, userInfo);
+       }).catch(function(err) {
+           console.log("Error:", err);
+           return done(null, false, {
+               message: 'Something went wrong with your login'
+           });
+       });
+   }
+   ));
+}

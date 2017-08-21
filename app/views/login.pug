@@ -1,0 +1,22 @@
+extends layout.pug
+
+block content
+  div.row
+    div.col.m6.s12.offset-m3
+      div.card
+        div.card-content
+          p Welcome to Tip Tracker!
+          form(id="login" name="login" action='/login', method='post')
+            div.row
+              div.input-field.col.m12.s12
+                input.form-control(type='text', name='email', placeholder='email')
+              div.input-field.col.m12.s12
+                input.form-control(type='password', name='password', placeholder='password')
+            div.row
+              div.col.m6.s6
+                button.btn.col.m12.s12 Login
+              div.col.m6.s6
+                a(href='/register')
+                  button.btn.col.m12.s12(type='button') Register
+                  
+  include scripts.pug
