@@ -13,7 +13,7 @@ exports.login = function(req, res) {
 
  exports.dashboard = function(req, res) {
   
-     res.render('dashboard');
+     res.render('dashboard', {isAuth: req.isAuthenticated(), user: "Creed"}); //ph for seq db query
   
  }
 

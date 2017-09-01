@@ -25,6 +25,7 @@ var models = require("./app/models");
 
 //Routes
 var authRoute = require('./app/routes/auth.js')(app, passport);
+var actionRoute = require('./app/routes/action.js')(app);
 
 //load passport strategies
 require('./config/passport/passport.js')(passport, models.user);
@@ -44,11 +45,11 @@ models.sequelize.sync().then(function() {
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'pug');
  
-app.get('/', function(req, res) {
+// app.get('/', function(req, res) {
  
-    res.send('Welcome to Passport with Sequelize');
+//     res.send('Welcome to Passport with Sequelize');
  
-});
+// });
 
  
  

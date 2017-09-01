@@ -1,5 +1,5 @@
 /*
-This file is used to import all the models we place in the models folder, and export them.
+This file is used to import all the models in the models folder and export them.
 */
 "use strict";
 

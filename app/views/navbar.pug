@@ -5,7 +5,7 @@ nav
     a.brand-logo(href="/") Tip Tracker
     a.button-collapse(href="#", data-activates="slide-out")
       i.material-icons menu
-    if isAuth  
+    if isAuth 
       ul.right.hide-on-med-and-down
         for item in navOptions
           if item === 'Account'
