@@ -1,5 +1,5 @@
 # tipTracker
-A simple web app for tracking server wages, hourly and delivering custom descriptive statistics.
+A simple web app for tracking server wages, hourly and delivering custom descriptive statistics. Features include graphing and a tool to help pick shifts based on predicted hourly. 
 
 I'm publishing as the app is tested in TEST env. </br>
 .1 release: Published user auth, models and register/login views. </br>
